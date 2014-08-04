@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+        <title>AREA VIEW</title>
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="stylesheet" href="css/ah4rfo.min.css" />
+          <link rel="stylesheet" href="css/fa/font-awesome.min.css" />
+          <link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
+          <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.3.min.css" /> 
+          <script src="js/jquery-1.11.1.min.js"></script> 
+          <script src="js/jquery.mobile-1.4.3.min.js"></script>
+          <script type="text/javascript" src="cordova.js"></script>
+          <script type="text/javascript" src="js/index.js"></script>
+          <script type="text/javascript">
+          </script>
+    </head>
+    <body style="background-color:#343434">
+        <div style="background-color:#343434" class="app">
+            <div class="ui-field-contain">
+                <a data-iconpos="notext" style="margin-left:2%" onclick="document.location.href='project.html?job_id=';"><i class="fa fa-chevron-left fa-2x"></i></a>
+                <div style="text-align:center"><BUTTON style="width:50%;margin:auto;margin-top:-40px">Add an Area</BUTTON></div>
+                <div style="color:white;font-size:24px;position:absolute;display:inline"><span id="prop_heading" style="margin-left:10px"></span>
+                </div>
+                <i style="color:rgb(211,27,27);position:absolute;right:10px;top:0px" class="fa fa-home fa-3x" id="go_home"></i>
+            </div>
+                <p>
+                
+                <!--TASK LIST-->
+                <ul id="task_list" data-role="listview">
+                
+                <div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+                    <div data-role="header" data-theme="a">
+                    <h1>Photo Capture</h1>
+                    </div>
+                    <div role="main" class="ui-content">
+                        <h3 class="ui-title"></h3>
+                    <p></p>
+                        <a href="" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" id="takephoto">Take photos</a>
+                        <a href="" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-transition="flow" id="choosephoto">Choose a photo</a>
+                    </div>
+                </div>
+                <!--AREA LIST ITEMS-->
+            
+                </ul>
+        </div>
+        <script type="text/javascript">
+
+            app.initialize();
+
+            function takePhoto(task_id){
+                var job_id = getQueryVariable("job_id");
+                var area_id = getQueryVariable("area_id");
+
+//CHECK
+                $('#takephoto').attr("href","photo.html?job_id="+job_id+"&area_id="+area_id+"&task_id="+task_id);
+            }
+
+            $('#takephoto').click(function(){
+                var href = $('#takephoto').attr("href");
+                document.location.href=href;
+            });
+
+            //Fetch all tasks associated with a job
+            $(document).ready(function(){
+                $.mobile.loading("show");
+                $.support.cors = true;
+                $.mobile.allowCrossDomainPages=true;
+
+                var job_id = getQueryVariable("job_id");
+                var area_id = getQueryVariable("area_id");
+                
+                //Send job id and area_id
+                var info = {"job_id":job_id,"area_id":area_id};
+
+                //API CALL FOR RETRIEVING TASK INFO
+                $.ajax({
+                    crossDomain: true,
+                    url: "https://maintenance.ah4r.com/turns/api/getTasks.php",
+                    type:"POST",
+                    data: info,
+                    dataType: "json",
+                    success: function(data,text,xhqr){
+                        $.each(data,function(k,v){
+                            $('#task_list').append("<li style='margin-bottom:10px;margin-left:10px;margin-right:10px;box-shadow:0px 5px 5px black' class='ui-li-static ui-body-inherit task'> <div class='task_tile'> <h1>CHECK CARPET</h1> <p class='task_instructions' style='display:inline'> "+v.instructions+"</p><br><p></p><div data-role='fieldcontain'><select name='"+v.task_id+"' data-native-menu='true'><option>Condition</option><option value='0'>Poor</option><option value='1'>Fair</option><option value='2'>Good</option><option value='3'>Excellent</option></select></div><div class='task_repair'><div class='gridstart_1-5'> <i class='fa fa-plus fa-3x' style='color:rgb(211,27,27)'></i> </div> <div class='grid_3-5'> <h1>Repairs: $ 0.00</h1> </div> <div class='gridend_1-5'> <u>#</u><p> <a style='font-size:28px'>"+v.li_count+"</a> </div> </div> <br> <br> <!--PHOTO SECTION--> <div class='task_repair'> <div class='gridstart_1-5'> <a href='#popupDialog' data-rel='popup' data-position-to='window' data-transition='pop'><i class='fa fa-camera fa-3x' style='color:rgb(211,27,27)' onclick='takePhoto("+v.task_id+");'></i></a> </div> <div class='grid_3-5'> <h1>Photos</h1> </div> <div class='gridend_1-5' style='margin-top:20px'> <p> <a style='font-size:28px'>"+v.photo_count+"</a> </div> </div> <!--NOTES SECTION--><textarea type='textarea' name='notes' style='color:#343434' class='ui-input-text ui-shadow-inset ui-body-inherit ui-corner-all ui-textinput-autogrow' placeholder='Enter any notes here..'></textarea> </div> </li>");
+                            
+                        });
+                    }
+                });
+
+                $.mobile.loading("hide");
+            });
+
+        </script>
+    </body>
+</html>

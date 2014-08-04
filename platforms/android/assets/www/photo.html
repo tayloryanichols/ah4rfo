@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, target-densitydpi=device-dpi" />
+        <title>Photo Capture</title>
+        <link rel="stylesheet" href="css/ah4rfo.min.css" />
+        <link rel="stylesheet" href="css/fa/font-awesome.min.css" />
+        <link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
+        <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.3.min.css" />
+        <script src="js/jquery-1.11.1.min.js"></script> 
+        <script src="js/jquery.mobile-1.4.3.min.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>         
+        <script>
+        var retries = 0;
+        var latitude = '';
+        var longitude = '';
+        var accuracy = '';
+
+        $(document).ready(function(){
+
+            var task_id = getQueryVariable("task_id");
+            var info = {"task_id" : task_id}; 
+
+            $.ajax({
+                    crossDomain: true,
+                    url: "http://maintenance.ah4r.com/turns/api/getPhotos.php",
+                    type:"POST",
+                    data: info,
+                    dataType: "json",
+                    success: function(data,text,xhqr){
+                        $.each(data,function(k,v){
+                            $('#thumbnails').append("<img height='100px' width='100px' src='http://maintenance.ah4r.com/turns/api/"+v.photo_url+"'></img>");
+                        });
+                        $.mobile.loading("hide");
+                    }    
+            });
+        });
+
+        document.addEventListener("deviceready",capturePhoto,false);
+
+        function capturePhoto() {
+            customCamera.getPicture("latest_scan.jpg",
+                upload, 
+                function(error) {
+                    alert(error);
+                }, 
+                {
+                    quality:10   
+                });
+        }
+
+
+        function upload(imageData){
+
+            $.mobile.loading("show");
+            $.support.cors = true;
+            $.mobile.allowCrossDomainPages=true;
+
+            var win = function (r) {
+                location.reload();
+                alert(r);
+                clearCache();
+                retries = 0;
+            };
+            
+            //Called if there is an upload error
+            var fail = function (error) {
+                if (retries === 0) {
+                    retries ++;
+                    setTimeout(function() {
+                        upload(imageData)
+                    }, 1000);
+                } else {
+                    retries = 0;
+                    clearCache();
+                    alert(error);
+                }
+            };
+            
+            var job_id = getQueryVariable("job_id");
+            var area_id = getQueryVariable("area_id");
+            var task_id = getQueryVariable("task_id");
+
+
+            /* ADD IN GEOCODING OF LOCATION */
+            /* ADD IN GEOCODING OF LOCATION */
+            /* ADD IN GEOCODING OF LOCATION */
+            /* ADD IN GEOCODING OF LOCATION */
+            /* ADD IN GEOCODING OF LOCATION */
+            /* ADD IN GEOCODING OF LOCATION */
+
+
+            //Set file upload options
+            var options = new FileUploadOptions();
+                options.fileKey = "file";
+                options.fileName = imageData.substr(imageData.lastIndexOf('/') + 1);
+                options.mimeType = "image/jpeg";
+
+            var params = new Object();
+                params.job_id = job_id;
+                params.area_id = area_id;
+                params.task_id = task_id;
+
+            options.params = params;
+
+            //INIT File Transfer
+            var ft = new FileTransfer();
+            ft.upload(imageData, encodeURI("http://maintenance.ah4r.com/turns/api/takePhoto.php"), 
+                
+                function(r){
+                    $.mobile.loading("show");
+
+                    //Append the photo to the thumbnail gallery
+                    $("#thumbnails").append("<img style='height:100px;width:100px;' src='http://maintenance.ah4r.com/turns/api/"+r.response+"'></img>");
+
+                    $.mobile.loading("hide");
+
+                }, fail, options); 
+
+            $.mobile.loading("hide");  
+        }
+    
+        </script>
+    </head>
+    <body>
+        
+        <div class="app">
+            <span id="latitude" ></span>
+            <span id="longitude" hidden></span>
+            <span id="accuracy" hidden></span>
+            <button onclick="capturePhoto();">
+                <i class="fa fa-camera fa-3x"></i>
+            </button>
+
+            <div id="thumbnails">    
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+
+    </body>
+</html>

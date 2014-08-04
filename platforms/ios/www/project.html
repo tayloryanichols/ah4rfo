@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <title>LIST VIEW</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/ah4rfo.min.css" />
+        <link rel="stylesheet" href="css/fa/font-awesome.min.css" />
+        <link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
+        <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.3.min.css" />
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/jquery.mobile-1.4.3.min.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+                    
+                    //Fetch all areas of job
+                    $(document).ready(function(){
+                        $.mobile.loading("show");
+                        $.support.cors = true;
+                        $.mobile.allowCrossDomainPages=true;
+                        var action = getQueryVariable("action");
+                        if (action == 'create') {
+                            //query variables
+                            var prop_id = getQueryVariable("prop_id");
+                            var job_type = getQueryVariable("type");
+                            var lifecycle_createdon = getQueryVariable("date");
+                            var user_id = window.name;
+                            var info = {"prop_id":prop_id,"job_type":job_type,"lifecycle_createdon":lifecycle_createdon,"user_id":user_id};
+                            //API CALL FOR PROJECT CREATION
+                            $.ajax({
+                                crossDomain: true,
+                                url: "http://maintenance.ah4r.com/turns/api/createJob.php",
+                                type:"POST",
+                                data: info,
+                                dataType: "json",
+                                success: function(data,text,xhqr){
+                                    $.mobile.loading("hide");
+                                    document.location.href="project.html?job_id="+data.job_id+"&prop_id="+prop_id;
+                                }
+                            });
+                        }else{
+                            var job_id = getQueryVariable("job_id");
+                            var prop_id = getQueryVariable("prop_id");
+                            $('#prop_heading').text(prop_id);
+                            var info = {"user_token":"123","job_id":job_id};
+                            $.mobile.loading("show");
+                            //API CALL FOR PROJECT IN PROGRESS
+                            $.ajax({
+                                crossDomain:true,
+                                url:"http://maintenance.ah4r.com/turns/api/getAreas.php",
+                                type:"POST",
+                                data: info,
+                                dataType: "json",
+                                success: function(data,text,xhqr){
+                                    var progress = "";
+                                    if (data[0].completed_tasks === data[0].total_tasks) {
+                                        progress = "<i class='fa fa-check fa-3x' style='color:#3888cc;margin-right:5px'></i>";
+                                    }else{
+                                        progress = v.completed_tasks + " / " + v.total_tasks;
+                                    };
+                                    $.each(data,function(k,v){
+                                        $('#area_list').append("<li class='area ui-li-static ui-body-inherit' id='"+v.area_id+"' onclick='getArea(this)'><h1 style='text-align:center'>"+v.name+"</h1><div class='area_grid_1-4'>"+progress+"</div><div class='area_grid_3-4'><p style='word-wrap:break-word;margin-top:20px'>AREA DESCRIPTION - CLICK TO VIEW FULL TEXT IN A POPUP WINDOW</p></div></li>");
+                                        
+                                    });
+                                
+                                }
+                                
+                            });
+                            $.mobile.loading("hide");
+                        }
+                        
+                    });
+        </script>
+    </head>
+    <body style="background-color:#343434">
+        <div style="background-color:#343434" class="app">
+            <div class="heading">
+                <a data-iconpos="notext" style="float:left;margin-top:10px;margin-left:5px" onclick="document.location.href='list.html';">
+                <i class="fa fa-chevron-left fa-2x">
+                </i>
+
+                </a>
+                <a>
+                <i class="fa fa-home fa-3x" id="go_home" style="float:right;color:rgb(211,27,27);margin-right:10px;margin-top:5px">
+                </i>
+                </a>
+            </div>
+            <br><br>
+            <p>
+            <!--ACTION BUTTONS-->
+            <button style="background-color:#3388cc;text-shadow:0 1px 0 #000;color:white" id="add_area" onclick="validateProject();return false;">Save for Later / Finish</button>
+            <button style="background-color:rgb(255,218,40)"id="add_area">Add an Area</button>
+
+            <!--AREA LISTING-->
+            <ul class="area_list" id="area_list" data-role="listview">
+                <!--AREA LIST ITEMS-->
+
+            </ul>
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+                    app.initialize();
+        </script>
+    </body>
+</html>

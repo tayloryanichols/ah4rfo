@@ -1,0 +1,30 @@
+2014-07-29 16:07:04.829 AH4R Field Ops[24057:70b] Multi-tasking -> Device: YES, App: YES
+2014-07-29 16:07:04.838 AH4R Field Ops[24057:70b] Unlimited access to network resources
+2014-07-29 16:07:04.904 AH4R Field Ops[24057:70b] [CDVTimer][file] 1.623988ms
+2014-07-29 16:07:04.904 AH4R Field Ops[24057:70b] [CDVTimer][TotalPluginStartup] 2.489030ms
+2014-07-29 16:07:04.998 AH4R Field Ops[24057:70b] Resetting plugins due to page load.
+2014-07-29 16:07:05.262 AH4R Field Ops[24057:70b] Finished load of: file:///Users/tayloryanichols/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/67842A05-F0A7-4166-9EE4-364CB39A12A8/AH4R%20Field%20Ops.app/www/index.html
+2014-07-29 16:08:27.780 AH4R Field Ops[24057:70b] Received memory warning.
+2014-07-31 11:19:21.896 AH4R Field Ops[5022:70b] Multi-tasking -> Device: YES, App: YES
+2014-07-31 11:19:22.031 AH4R Field Ops[5022:70b] Unlimited access to network resources
+2014-07-31 11:19:23.269 AH4R Field Ops[5022:70b] [CDVTimer][file] 1.205027ms
+2014-07-31 11:19:23.270 AH4R Field Ops[5022:70b] [CDVTimer][TotalPluginStartup] 1.699030ms
+2014-07-31 11:19:23.673 AH4R Field Ops[5022:70b] Resetting plugins due to page load.
+2014-07-31 11:19:24.423 AH4R Field Ops[5022:70b] Finished load of: file:///Users/tayloryanichols/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/67842A05-F0A7-4166-9EE4-364CB39A12A8/AH4R%20Field%20Ops.app/www/index.html
+2014-07-31 11:19:42.764 AH4R Field Ops[5022:70b] Received memory warning.
+2014-07-31 11:20:53.332 AH4R Field Ops[6186:70b] Multi-tasking -> Device: YES, App: YES
+2014-07-31 11:20:53.340 AH4R Field Ops[6186:70b] Unlimited access to network resources
+2014-07-31 11:20:53.361 AH4R Field Ops[6186:70b] [CDVTimer][file] 1.556039ms
+2014-07-31 11:20:53.362 AH4R Field Ops[6186:70b] [CDVTimer][TotalPluginStartup] 1.913965ms
+2014-07-31 11:20:53.472 AH4R Field Ops[6186:70b] Resetting plugins due to page load.
+2014-07-31 11:20:53.853 AH4R Field Ops[6186:70b] Finished load of: file:///Users/tayloryanichols/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/67842A05-F0A7-4166-9EE4-364CB39A12A8/AH4R%20Field%20Ops.app/www/index.html
+2014-07-31 11:20:58.458 AH4R Field Ops[6186:70b] Resetting plugins due to page load.
+2014-07-31 11:20:58.642 AH4R Field Ops[6186:70b] Finished load of: file:///Users/tayloryanichols/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/67842A05-F0A7-4166-9EE4-364CB39A12A8/AH4R%20Field%20Ops.app/www/twoweeksurvey.html?prop_id=WI12129&rentready=2013-05-30%2007:00:00
+2014-07-31 11:21:03.774 AH4R Field Ops[6186:70b] THREAD WARNING: ['CustomCamera'] took '1413.879883' ms. Plugin should use a background thread.
+2014-07-31 11:21:08.210 AH4R Field Ops[6186:70b] THREAD WARNING: ['CustomCamera'] took '1408.524170' ms. Plugin should use a background thread.
+2014-07-31 11:21:10.247 AH4R Field Ops[6186:70b] THREAD WARNING: ['CustomCamera'] took '1417.591309' ms. Plugin should use a background thread.
+2014-07-31 11:21:12.375 AH4R Field Ops[6186:70b] THREAD WARNING: ['CustomCamera'] took '1200.387939' ms. Plugin should use a background thread.
+2014-07-31 11:21:14.723 AH4R Field Ops[6186:70b] Resetting plugins due to page load.
+2014-07-31 11:21:14.916 AH4R Field Ops[6186:70b] Finished load of: file:///Users/tayloryanichols/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/67842A05-F0A7-4166-9EE4-364CB39A12A8/AH4R%20Field%20Ops.app/www/index.html
+2014-07-31 11:21:16.091 AH4R Field Ops[6186:70b] Resetting plugins due to page load.
+2014-07-31 11:21:16.246 AH4R Field Ops[6186:70b] Finished load of: file:///Users/tayloryanichols/Library/Application%20Support/iPhone%20Simulator/7.1/Applications/67842A05-F0A7-4166-9EE4-364CB39A12A8/AH4R%20Field%20Ops.app/www/twoweeksurvey.html?prop_id=WI12129&rentready=2013-05-30%2007:00:00

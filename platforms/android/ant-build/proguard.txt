@@ -1,0 +1,9 @@
+# view AndroidManifest.xml #generated:6
+-keep class com.ah4r.ah4rfo_v2.AH4RFieldOps { <init>(...); }
+
+# view AndroidManifest.xml #generated:12
+-keep class com.performanceactive.plugins.camera.CustomCameraActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:13
+-keep class com.synconset.MultiImageChooserActivity { <init>(...); }
+

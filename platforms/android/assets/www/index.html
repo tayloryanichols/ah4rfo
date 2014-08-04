@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+
+    <title>LIST VIEW</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="css/ah4rfo.min.css" />
+      <link rel="stylesheet" href="css/fa/font-awesome.min.css" />
+      <link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
+      <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.3.min.css" /> 
+      <script src="js/jquery-1.11.1.min.js"></script> 
+      <script src="js/jquery.mobile-1.4.3.min.js"></script>
+      <script type="text/javascript" src="cordova.js"></script>
+      <script type="text/javascript" src="js/index.js"></script>
+      <!--<script type="text/javascript" src="js/energize.js/energize-min.js"></script>-->
+      <script type="text/javascript" src="js/fastclick/lib/fastclick.js"></script>
+      <script type="text/javascript">
+        document.addEventListener("deviceready",onDeviceReady,false);
+
+        function onDeviceReady(){
+          document.location.href="twoweeksurvey.html";
+
+          $('#survey_wrapper').hide();
+          
+          //used for record paging
+          window.height = 3000;
+          window.page = 0;
+
+          window.key = getQueryVariable("key");
+          window.email = getQueryVariable("email");
+
+          //Redirect if user not authenticated
+          if(!key){
+            //document.location.href="login.html";
+          }
+
+          //Show loading wheel & enable cors
+          $.mobile.loading("show");
+          $.support.cors = true;
+          $.mobile.allowCrossDomainPages=true;
+          
+
+
+          //Fetch bi-weekly inspection
+          /*
+            This portion should be updated with the following:
+              -Pagination (~25 at a time)
+              -POST Variable for user_id/keyIdentifier
+              -Project Status Priority
+              -Project continuation link
+          */
+          $.ajax({
+            crossDomain: true,
+            type: "GET",
+            url: "https://maintenance.ah4r.com/turns/api/getBiWeekly.php?email="+email+"&key="+key,
+            dataType: "json",
+            success: function(data){
+
+              $.each(data,function(k,v){
+
+                if (v.status == 'New') {
+                  action = '&action=create';
+                }else{
+                  action = '';
+                };
+
+                /*APPENDED LINK
+                  onclick="document.location.href=\'twoweeksurvey.html?prop_id='+v.prop_id+'&page=0&rentready='+v.rentready+action+'\';"
+                */
+
+                $('#job_list').append('<li class="job '+v.status+'" prop_id="'+v.prop_id+'" rentready="'+v.rentready+'"><a class="ui-btn ui-btn-b ui-btn-icon-right ui-icon-carat-r"><h1 style="font-size:24px">'+v.prop_id+' - '+v.status+'</h1><span style="font-weight:normal ">'+v.prop_address+', <br/>'+v.prop_city+', '+v.prop_state+', '+v.prop_zip+'</span><br/><br/>Made Rent Ready: <br/><span style="color:#38c">'+v.rentready+'</span></a></li>');
+
+              });
+
+              $(".job").bind("touchstart mousedown",function(event){
+                var prop_id = $(this).attr("prop_id");
+                var rentready = $(this).attr("rentready");
+                $("#list_wrapper").hide();
+                $("#survey_wrapper").show();
+
+              });
+
+              $.mobile.loading("hide");
+
+            }
+
+          });
+
+            //Bind touchstart to job list items
+            
+
+        };
+
+        //Hide menu while scrolling
+        var lastScrollTop = 0;
+
+        $(document).scroll(function(event){
+
+          var st = $(this).scrollTop();
+          if (st > lastScrollTop){
+            $('#header').hide();
+            $('#footer').hide();
+          } else {
+            $('#header').show();
+            $('#footer').show();
+          }
+          lastScrollTop = st;
+
+          var offset = $("#header").offset();
+
+            if(offset.top > window.height){
+              $.mobile.loading("show");
+
+              window.height = window.height + 3000;
+              window.page = window.page + 1;
+
+              $.ajax({
+                crossDomain: true,
+                type: "GET",
+                url: "https://maintenance.ah4r.com/turns/api/getBiWeekly.php?email="+window.email+"&key="+window.key+"&page="+window.page,
+                dataType: "json",
+                success: function(data){
+                  
+                  $.each(data,function(k,v){
+
+                  /*
+                    
+                    APPENDED LINK --->
+                      onclick="document.location.href=\'twoweeksurvey.html?prop_id='+v.prop_id+'&rentready='+v.rentready+'\';"
+                  
+                  */
+
+                      $('#job_list').append('<li class="'+v.status+'"><a class="ui-btn ui-btn-b ui-btn-icon-right ui-icon-carat-r"><h1 style="font-size:24px">'+v.prop_id+' - '+v.status+'</h1><span style="font-weight:normal">'+v.prop_address+', <br/>'+v.prop_city+', '+v.prop_state+', '+v.prop_zip+'</span><br/><br/>Made Rent Ready: <br/><span style="color:#38c">'+v.rentready+'</span></a></li>');
+
+                });
+
+              }
+
+            });
+
+          };
+          $.mobile.loading("hide");
+        });
+  
+
+
+      
+
+        function showOnly(status){
+          var status_filter = status;
+
+          switch(status_filter){
+            case 'New':
+              $(".New").show();
+              $(".Progress").hide();
+              $(".Complete").hide();
+              break;
+
+            case 'Progress':
+              $(".New").hide();
+              $(".Progress").show();
+              $(".Complete").hide();
+              break;
+
+            case 'Complete':
+              $(".New").hide();
+              $(".Progress").hide();
+              $(".Complete").show();
+              break;
+          }
+
+        }
+
+      
+      </script>
+  </head>
+<body class="ui-mobile-viewport ui-overlay-a">
+    
+
+  <div id="list_wrapper">
+    <!-- top anchor -->
+    <div id="top"></div>
+    <!-- HEADER -->
+    <div data-role="header" style="overflow:hidden;position:fixed;width:100%;z-index:1000;height:90px;background-color:#343434;font-size:18px;top:0px" id="header">
+      <h2 id="heading_text" style="width:80%;margin:auto;">Bi-weekly Inspections</h1>
+          <a href="#"><i class="fa fa-bars"></i></a>
+          <a onclick="document.location.href='#top';"><i class="fa fa-arrow-up"></i></a>
+          <!-- List Filter -->
+          <div data-role="navbar" >
+              <ul>
+                  <li><a onclick="showOnly('New');" class="ui-btn-active">New</a></li>
+                  <li><a onclick="showOnly('Progress');" href="#">In Progress</a></li>
+                  <li><a onclick="showOnly('Complete');" href="#">Complete</a></li>
+              </ul>
+          </div><!-- /navbar -->
+      </div><!-- /header -->
+
+    <!-- CONTENT -->
+    <div data-role="content" style="margin-top:80px">
+      <ul data-role="listview" data-filter="true" data-filter-placeholder="Search Bi-Weekly Inspections..." data-inset="true" id="job_list">
+        <!-- JOB LIST -->
+      </ul>
+    </div>
+    <div id="page_point"></div>
+    <!-- FOOTER -->
+      <div data-role="footer" style="overflow:hidden;position:fixed;bottom:0px;width:100%" role="contentinfo" class="ui-footer ui-bar-inherit" id="footer">
+        <div data-role="navbar" class="ui-navbar" role="navigation">
+          <ul class="ui-grid-b">
+              <li class="ui-block-a"><a href="#" class="ui-link ui-btn ui-btn-active" selected>Bi-Weekly</a></li>
+              <li class="ui-block-b"><a href="#" class="ui-link ui-btn">Marketing</a></li>
+              <li class="ui-block-c"><a href="#" class="ui-link ui-btn">Turns</a></li>
+          </ul>
+        </div><!-- /navbar -->
+      </div><!-- /footer -->
+    </div><!-- /page popup -->
+  </div><!-- /list page -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - OTHER PAGE--> 
+
+
+<div id="survey_wrapper">
+<div id="background" style="width:100%;height:100%;display:none;position:absolute;z-index:100000;background-color:rgba(0,0,0,0.7)">
+                <div id="photo" style="margin:auto;display:block;background-color:rgba(255,255,255,0.7);height:90%;width:90%">
+                    <button class="ui-btn">Take a Photo</button>
+                    <button class="ui-btn">Choose a Photo</button>
+                </div>
+            </div>
+                <div data-role="header" style="color:white;text-shadow:1px 1px 1px black;position:fixed;width:100%;top:0px;position:absolute;z-index:100001;background-color:rgba(48,128,192,0.7)">
+                    <i class="fa fa-chevron-left fa-2x" style="position:absolute;margin-top:5px;margin-left:5px" onclick="history.back();"></i>
+                    <i class="fa fa-save fa-2x" style="position:absolute;margin-top:5px;right:0px;margin-right:5px;" onclick="save();"></i>
+                    <h1 style="width:60%;margin:auto">Two Week Inspection Survey</h1>
+                </div><!-- /header -->
+                            <!--HIDDEN ID-->
+                            <input type="hidden" value="" id="inspection_id"></input>
+                            <!--QUESTION 1-->
+                            <fieldset data-role="controlgroup" style="margin-top:50px">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">Were the GPS Directions accurate?</legend>
+                                <input type="radio" name="gps" id="q1c1" value="yes">
+                                <label for="q1c1">Yes</label>
+                                <input type="radio" name="gps" id="q1c2" value="no">
+                                <label for="q1c2">No</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 2-->
+                            <br>
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">What is the condition of the property? (Take a photo of home and surrounding area) &nbsp; <i class="fa fa-camera" style="color:red">&nbsp;</i></legend>
+                                <input onclick="capturePhoto('2');" type="radio" name="condition" id="q2c1" value="good" >
+                                <label for="q2c1">Good</label>
+                                <input onclick="capturePhoto('2');" type="radio" name="condition" id="q2c2" value="fair">
+                                <label for="q2c2">Fair</label>
+                                <input onclick="capturePhoto('2');" type="radio" name="condition" id="q2c3" value="poor">
+                                <label for="q2c3">Poor</label>
+                                <input onclick="capturePhoto('2');" type="radio" name="condition" id="q2c4" value="violation">
+                                <label for="q2c4">Violation</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 3-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">Are there notable neighbor problems?</legend>
+                                <input onclick="capturePhoto('3');" class="photo_needed" type="radio" name="neighbor" id="q3c1" value="yes">
+                                <label for="q3c1">Yes</label>
+                                <input onclick="capturePhoto('3');" type="radio" name="neighbor" id="q3c2" value="no">
+                                <label for="q3c2">No</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 4-->
+                            <br>
+                            <fieldset data-role="controlgroup" >
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">What is
+                                 the condition of the landscaping? (Take a photo of landscape)&nbsp; <i class="fa fa-camera" style="color:red">&nbsp;</i></legend>
+                                <input onclick="capturePhoto('4');" type="radio" name="landscape" id="q4c1" value="good">
+                                <label for="q4c1">Good</label>
+                                <input onclick="capturePhoto('4');" type="radio" name="landscape" id="q4c2" value="needs service">
+                                <label for="q4c2">Needs Service</label>
+                            </fieldset><br>
+                            <!--QUESTION 5-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">Is a yard sign installed? (Take a photo of the yard sign)&nbsp; <i class="fa fa-camera" style="color:red">&nbsp;</i></legend>
+                                <input onclick="capturePhoto('5');" type="radio" name="yard_sign" id="q5c1" value="yes">
+                                <label for="q5c1">Yes</label>
+                                <input onclick="capturePhoto('5');" type="radio" name="yard_sign" id="q5c2" value="no">
+                                <label for="q5c2">No</label>
+                                <input onclick="capturePhoto('5');" type="radio" name="yard_sign" id="q5c3" value="hoa restricted">
+                                <label for="q5c3">HOA Restricted</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 6-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">Is there a Rently lockbox installed?</legend>
+                                <input type="radio" name="rently" id="q6c1" value="yes">
+                                <label for="q6c1">Yes</label>
+                                <input type="radio" name="rently" id="q6c2" value="no">
+                                <label for="q6c2">No</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 7-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">Is there a key in the lockbox?</legend>
+                                <input type="radio" name="key" id="q7c1" value="yes">
+                                <label for="q7c1">Yes</label>
+                                <input type="radio" name="key" id="q7c2" value="no">
+                                <label for="q7c2">No</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 8-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">Is the electricity on?</legend>
+                                <input type="radio" name="electricity" id="q8c1" value="yes">
+                                <label for="q8c1">Yes</label>
+                                <input type="radio" name="electricity" id="q8c2" value="no">
+                                <label for="q8c2">No</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 9-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">Is the gas on?</legend>
+                                <input type="radio" name="gas" id="q9c1" value="yes">
+                                <label for="q9c1">Yes</label>
+                                <input type="radio" name="gas" id="q9c2" value="no">
+                                <label for="q9c2">No</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 10-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">Is the water on?</legend>
+                                <input type="radio" name="water" id="q10c1" value="yes">
+                                <label for="q10c1">Yes</label>
+                                <input type="radio" name="water" id="q10c2" value="no">
+                                <label for="q10c2">No</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 11-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">Is the interior clean?</legend>
+                                <input type="radio" name="interior" id="q11c1" value="yes">
+                                <label for="q11c1">Yes</label>
+                                <input onclick="capturePhoto('11');" type="radio" name="interior" id="q11c2" value="needs service">
+                                <label for="q11c2">Needs Service</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 12-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">Did you open and close all windows to ventilate the property (if needed)?</legend>
+                                <input type="radio" name="windows" id="q12c1" value="yes">
+                                <label for="q12c1">Yes</label>
+                                <input type="radio" name="windows" id="q12c2" value="no">
+                                <label for="q12c2">No</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 13-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">Did you flush all toilets?</legend>
+                                <input type="radio" name="toilets" id="q13c1" value="yes">
+                                <label for="q13c1">Yes</label>
+                                <input type="radio" name="toilets" id="q13c2" value="no">
+                                <label for="q13c2">No</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 14-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">Are lightbulbs needed?</legend>
+                                <input type="radio" onclick="$('#lb_qty_wrapper').show('slow');" name="lightbulbs" id="q14c1" value="yes">
+                                <label for="q14c1">Yes</label>
+                                <div id="lb_qty_wrapper" style="color:white;text-shadow:1px 1px 1px black;margin-top:10px;margin-bottom:10px" hidden>
+                                    What type?
+                                    <input name="lb_type" type="text" id="lb_qty" value=" " maxlength="150">
+                                    How many?
+                                    <input name="lb_qty" type="number" id="lb_qty" value="0">
+                                </div>
+                                <input type="radio" name="lightbulbs" id="q14c2" value="no" onclick="$('#lb_qty_wrapper').hide('slow');"></input>
+                                <label for="q14c2">No</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 15-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">Are alarm batteries needed?</legend>
+                                <input type="radio" onclick="$('#ab_qty_wrapper').show('slow');" name="alarm" id="q15c1" value="yes">
+                                <label for="q15c1">Yes</label>
+                                <div id="ab_qty_wrapper" style="color:white;text-shadow:1px 1px 1px black;margin-top:10px;margin-bottom:10px" hidden>
+                                    What type?
+                                    <input name="ab_type" type="text" id="ab_qty" value="" maxlength="150">
+                                    How many?
+                                    <input name="ab_qty" type="number" id="ab_qty" value="0">
+                                </div>
+                                <input type="radio" name="alarm" id="q15c2" value="no" onclick="$('#ab_qty_wrapper').hide('slow');"></input>
+                                <label for="q15c2">No</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 16-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">Are repairs needed?</legend>
+                                <input onclick="capturePhoto('16');" type="radio" name="repair" id="q16c1" value="yes">
+                                <label for="q16c1">Yes</label>
+                                <input type="radio" name="repair" id="q16c2" value="no">
+                                <label for="q16c2">No</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 17-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black">What is the condition of the pool?</legend>
+                                <input onclick="capturePhoto('17');" type="radio" name="pool" id="q17c1" value="good">
+                                <label for="q17c1">Good</label>
+                                <input onclick="capturePhoto('17');" type="radio" name="pool" id="q17c2" value="needs service">
+                                <label for="q17c2">Needs Service</label>
+                                <input onclick="capturePhoto('17');" type="radio" name="pool" id="q17c3" value="no pool">
+                                <label for="q17c3">No Pool</label>
+                            </fieldset>
+                            <br>
+                            <!--QUESTION 18-->
+                            <fieldset data-role="controlgroup">
+                                <legend style="color:#6bf;text-shadow:1px 1px 1px black" id="legend">Is there a pool safeguard installed?</legend>
+                                <input onclick="capturePhoto('18');" type="radio" name="safeguard" id="q18c1" value="yes"></a>
+                                <label for="q18c1">Yes</label>
+                                <input onclick="capturePhoto('18');" type="radio" name="safeguard" id="q18c2" value="no">
+                                <label for="q18c2">No</label>
+                                <input onclick="capturePhoto('18');" type="radio" name="safeguard" id="q18c3" value="no pool">
+                                <label for="q18c3">No Pool</label>
+                            </fieldset>
+
+                        <button id="photo" class="fa fa-camera" onclick="capturePhoto('additional');"></button>
+                        <h1 style="text-align:center;color:white;text-shadow:1px 1px 1px #38c">Photos</h1>
+                        <div id="thumbnails">
+                        </div>
+                        <button class="ui-btn ui-btn-b">SUBMIT</button>
+</div><!--SURVEY WRAPPER -->
+
+
+
+
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - OTHER PAGE-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  </div></div><div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span><h1>loading</h1></div>
+
+  <div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span><h1>loading</h1></div>
+</body>
+</html>

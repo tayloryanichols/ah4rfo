@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+
+    <title>LIST VIEW</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="css/ah4rfo.min.css" />
+      <link rel="stylesheet" href="css/fa/font-awesome.min.css" />
+      <link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
+      <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.3.min.css" /> 
+      <script src="js/jquery-1.11.1.min.js"></script> 
+      <script src="js/jquery.mobile-1.4.3.min.js"></script>
+      <script type="text/javascript" src="cordova.js"></script>
+      <script type="text/javascript" src="js/index.js"></script>
+      <script type="text/javascript" src="js/energize.js/energize-min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+          $.mobile.loading("show");
+          $.support.cors = true;
+          $.mobile.allowCrossDomainPages=true;
+          
+          $.ajax({
+            crossDomain: true,
+            type: "GET",
+            url: "https://maintenance.ah4r.com/turns/api/getBiWeekly.php?email=tnichols@ah4r.com",
+            dataType: "json",
+            success: function(data){
+              
+              $.each(data,function(k,v){
+                $('#job_list').append('<li><a onclick="document.location.href=\'twoweeksurvey.html?prop_id='+v.prop_id+'&rentready='+v.rentready+'\';" class="ui-btn ui-btn-b ui-btn-icon-right ui-icon-carat-r"><h1 style="font-size:24px">'+v.prop_id+'</h1><span style="font-weight:normal ">'+v.prop_address+', <br/>'+v.prop_city+', '+v.prop_state+', '+v.prop_zip+'</span><br/><br/>Made Rent Ready: <br/><span style="color:#38c">'+v.rentready+'</span></a></li>');
+
+              });
+              /*
+              $.each(data,function(k,v){
+                alert(data);
+              });
+              */
+              $.mobile.loading("hide");
+            }
+          
+          });
+
+        });
+
+        var lastScrollTop = 0;
+
+        $(document).scroll(function(event){
+           var st = $(this).scrollTop();
+           if (st > lastScrollTop){
+              $('#header').hide();
+              $('#footer').hide();
+           } else {
+              $('#header').show();
+              $('#footer').show();
+           }
+           lastScrollTop = st;
+        });
+
+      </script>
+  </head>
+<body class="ui-mobile-viewport ui-overlay-a">
+    <!-- HEADER -->
+    <div data-role="header" style="overflow:hidden;position:fixed;width:100%;z-index:1000;height:52px;background-color:#38c;font-size:18px" id="header">
+      <h2 id="heading_text" style="width:80%;margin:auto;">Bi-weekly Inspections</h1>
+          <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+      </div><!-- /header -->
+
+    <!-- CONTENT -->
+    <div data-role="content" style="margin-top:35px">
+      <ul data-role="listview" data-filter="true" data-filter-placeholder="Search Bi-Weekly Inspections..." data-inset="true" id="job_list">
+        <!-- JOB LIST -->
+      </ul>
+    </div>
+
+    <!-- FOOTER -->
+      <div data-role="footer" style="overflow:hidden;position:fixed;bottom:0px;width:100%" role="contentinfo" class="ui-footer ui-bar-inherit" id="footer">
+        <div data-role="navbar" class="ui-navbar" role="navigation">
+          <ul class="ui-grid-b">
+              <li class="ui-block-a"><a href="#" class="ui-link ui-btn ui-btn-active" selected>Bi-Weekly</a></li>
+              <li class="ui-block-b"><a href="#" class="ui-link ui-btn">Marketing</a></li>
+              <li class="ui-block-c"><a href="#" class="ui-link ui-btn">Turns</a></li>
+          </ul>
+        </div><!-- /navbar -->
+      </div><!-- /footer -->
+    </div><!-- /page popup -->
+  
+
+  </div></div><div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span><h1>loading</h1></div>
+
+  <div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span><h1>loading</h1></div>
+</body>
+</html>
