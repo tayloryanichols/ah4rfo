@@ -1,0 +1,191 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "framework": {
+                "parents": {
+                    "AVFoundation.framework": [
+                        {
+                            "xml": "false",
+                            "count": 1
+                        }
+                    ],
+                    "ImageIO.framework": [
+                        {
+                            "xml": "true",
+                            "count": 1
+                        }
+                    ],
+                    "CoreLocation.framework": [
+                        {
+                            "xml": "false",
+                            "count": 1
+                        }
+                    ],
+                    "CoreGraphics.framework": [
+                        {
+                            "xml": "false",
+                            "count": 16
+                        }
+                    ],
+                    "AssetsLibrary.framework": [
+                        {
+                            "xml": "false",
+                            "count": 9
+                        }
+                    ],
+                    "MobileCoreServices.framework": [
+                        {
+                            "xml": "false",
+                            "count": 9
+                        }
+                    ],
+                    "AddressBook.framework": [
+                        {
+                            "xml": "true",
+                            "count": 1
+                        }
+                    ],
+                    "AddressBookUI.framework": [
+                        {
+                            "xml": "true",
+                            "count": 1
+                        }
+                    ],
+                    "AudioToolbox.framework": [
+                        {
+                            "xml": "true",
+                            "count": 4
+                        }
+                    ],
+                    "SystemConfiguration.framework": [
+                        {
+                            "xml": "true",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"CustomCamera\"><param name=\"ios-package\" value=\"CustomCamera\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"ImagePicker\"><param name=\"ios-package\" value=\"SOSPicker\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Battery\"><param name=\"ios-package\" value=\"CDVBattery\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Camera\"><param name=\"ios-package\" value=\"CDVCamera\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Contacts\"><param name=\"ios-package\" value=\"CDVContacts\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Compass\"><param name=\"ios-package\" value=\"CDVCompass\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"File\"><param name=\"ios-package\" value=\"CDVFile\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"FileTransfer\"><param name=\"ios-package\" value=\"CDVFileTransfer\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Media\"><param name=\"ios-package\" value=\"CDVSound\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Capture\"><param name=\"ios-package\" value=\"CDVCapture\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Vibration\"><param name=\"ios-package\" value=\"CDVVibration\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "android.support.v4": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "com.performanceactive.plugins.camera": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "com.synconset.imagepicker": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "org.apache.cordova.battery-status": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "org.apache.cordova.camera": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "org.apache.cordova.contacts": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "org.apache.cordova.device": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "org.apache.cordova.device-orientation": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "org.apache.cordova.dialogs": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "org.apache.cordova.file": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "org.apache.cordova.file-transfer": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "org.apache.cordova.inappbrowser": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "org.apache.cordova.media": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "org.apache.cordova.media-capture": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "org.apache.cordova.network-information": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        },
+        "org.apache.cordova.vibration": {
+            "PACKAGE_NAME": "com.ah4r.ah4rfo_v2"
+        }
+    },
+    "dependent_plugins": {}
+}
