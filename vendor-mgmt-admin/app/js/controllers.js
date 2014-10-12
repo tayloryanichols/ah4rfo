@@ -75,6 +75,19 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
   }])
 
+  .controller('newVendor', ['$scope', 'appService', function ($scope, appService) {
+    
+    var base = 'https://maintenance.ah4r.com/',
+        app = 'ah4rvm/',
+        location = 'getVendors.php',
+        uri = ''+ base + app + location +'';
+
+    appService.findNewVendors(uri).then(function(data) {
+      $scope.newVendors = data.data;
+    });
+
+  }])
+
   // bootstrap controller
   .controller('AccordionDemoCtrl', ['$scope', function($scope) {
     $scope.oneAtATime = true;

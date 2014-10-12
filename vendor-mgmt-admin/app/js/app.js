@@ -150,7 +150,13 @@ var app = angular.module('app', [
             })
             .state('app.table.static', {
                 url: '/static',
-                templateUrl: 'tpl/table_static.html'
+                templateUrl: 'tpl/table_static.html',
+                controller: 'newVendor'
+            })
+            .state('app.newVendor', {
+                url: '/vendor/:id',
+                templateUrl: 'tpl/vendor_iframe.html',
+                controller: 'editVendor'
             })
             .state('app.table.datatable', {
                 url: '/datatable',

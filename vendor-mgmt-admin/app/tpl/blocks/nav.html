@@ -3,7 +3,7 @@
   <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
     <span translate="aside.nav.HEADER">Navigation</span>
   </li>
-  <li>
+  <!--<li>
     <a href class="auto">      
       <span class="pull-right text-muted">
         <i class="fa fa-fw fa-angle-right text"></i>
@@ -12,7 +12,29 @@
       <i class="glyphicon glyphicon-stats icon text-primary-dker"></i>
       <span class="font-bold" translate="aside.nav.DASHBOARD">Dashboard</span>
     </a>
-    <ul class="nav nav-sub dk">
+    </li>-->
+    <li>
+      <a ui-sref="app.table.static" class="auto">
+        <span class="pull-right text-muted">
+          <i class="fa fa-fw fa-angle-right text"></i>
+          <i class="fa fa-fw fa-angle-down text-active"></i>
+        </span>
+        <i class="icon-docs icon text-primary-dker"></i>
+        <span>New Vendors</span>
+      </a>
+    </li>
+    <li ui-sref-active="active">
+      <a ui-sref="app.page.search">
+        <span class="pull-right text-muted">
+          <i class="fa fa-fw fa-angle-right text"></i>
+          <i class="fa fa-fw fa-angle-down text-active"></i>
+        </span>
+        <i class="icon-magnifier icon text-primary-dker"></i>
+        <span>Search Vendors</span>
+      </a>
+    </li>
+    
+<!--    <ul class="nav nav-sub dk">
       <li class="nav-sub-header">
         <a href>
           <span translate="aside.nav.DASHBOARD">Dashboard</span>
@@ -367,5 +389,5 @@
       <span translate="aside.nav.your_stuff.DOCUMENTS">Documents</span>
     </a>
   </li>
-</ul>
+</ul>-->
 <!-- / list -->

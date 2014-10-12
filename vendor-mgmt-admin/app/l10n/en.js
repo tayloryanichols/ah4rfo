@@ -35,7 +35,7 @@
       },
       "table" : {
         "TABLE" : "Table",
-        "TABLE_STATIC" : "Table static",
+        "TABLE_STATIC" : "Table Static",
         "DATATABLE" : "Datatable",
         "FOOTABLE" : "Footable"
       },

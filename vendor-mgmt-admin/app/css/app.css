@@ -5034,3 +5034,25 @@ a.text-#000000:hover {
     background-color: #7266ba;
   }
 }
+
+/* 
+
+  Application Specific
+
+*/
+
+.application-hldr {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 35px;
+  height: 0;
+  overflow: hidden;
+}
+
+.application-hldr iframe {
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
