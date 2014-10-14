@@ -4,6 +4,33 @@
 // All the directives rely on jQuery.
 
 angular.module('app.directives', ['ui.load'])
+  .directive('hasPermission', ['permissions', function(permissions) {
+    return {
+      link: function(scope, element, attrs) {
+        if($.type(attrs.hasPermission) != "string") {
+          throw "hasPermission value must be a string";
+        }
+   
+        var value = attrs.hasPermission.trim();
+        var notPermissionFlag = value[0] === '!';
+        if(notPermissionFlag) {
+          value = value.slice(1).trim();
+        }
+   
+        function toggleVisibilityBasedOnPermission() {
+          console.log(permissions.hasPermission(value));
+          var hasPermission = permissions.hasPermission(value);
+          
+          if(hasPermission && !notPermissionFlag || !hasPermission && notPermissionFlag)
+            element.show();
+          else
+            element.hide();
+        }
+        toggleVisibilityBasedOnPermission();
+        scope.$on('permissionsChanged', toggleVisibilityBasedOnPermission);
+      }
+    };
+  }])  
   .directive('uiModule', ['MODULE_CONFIG','uiLoad', '$compile', function(MODULE_CONFIG, uiLoad, $compile) {
     return {
       restrict: 'A',

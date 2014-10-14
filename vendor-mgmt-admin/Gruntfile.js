@@ -51,6 +51,9 @@ module.exports = function (grunt) {
       gruntfile: {
         files: ['Gruntfile.js']
       },
+      less: {
+        files: ['<%= yeoman.app %>/css/less/{,*/}*.less']
+      },
       livereload: {
         options: {
           livereload: '<%= connect.options.livereload %>'
@@ -128,6 +131,19 @@ module.exports = function (grunt) {
         },
         src: ['test/spec/{,*/}*.js']
       }
+    },
+
+    less: {
+      app: {
+        files: {
+          '<%= yeoman.app %>/css/app.css': [
+            '<%= yeoman.app %>/css/less/app.less'
+          ]
+        },
+        options: {
+          compile: true
+        }
+      }  
     },
 
     // Empties folders to start fresh
@@ -399,6 +415,7 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
+      'less:app',
       'watch'
     ]);
   });
@@ -430,11 +447,13 @@ module.exports = function (grunt) {
     'uglify',
     'filerev',
     'usemin',
+    'less:app',
     'htmlmin'
   ]);
 
   grunt.registerTask('default', [
     'newer:jshint',
+    'less:app',
     'test',
     'build'
   ]);

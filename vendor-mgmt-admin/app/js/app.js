@@ -20,10 +20,12 @@ var app = angular.module('app', [
     'app.controllers'
   ])
 .run(
-  [          '$rootScope', '$state', '$stateParams',
-    function ($rootScope,   $state,   $stateParams) {
+  [          '$rootScope', '$state', '$stateParams', 'permissions',
+    function ($rootScope,   $state,   $stateParams, permissions) {
+        var permissionList;
         $rootScope.$state = $state;
-        $rootScope.$stateParams = $stateParams;        
+        $rootScope.$stateParams = $stateParams; 
+        permissions.setPermissions(permissionList)       
     }
   ]
 )
@@ -41,7 +43,7 @@ var app = angular.module('app', [
         app.value      = $provide.value;
 
         $urlRouterProvider
-            .otherwise('/app/dashboard-v1');
+            .otherwise('/access/signin');
         $stateProvider
             .state('app', {
                 abstract: true,
@@ -148,9 +150,9 @@ var app = angular.module('app', [
                 url: '/table',
                 template: '<div ui-view></div>'
             })
-            .state('app.table.static', {
+            .state('app.approveVendors', {
                 url: '/static',
-                templateUrl: 'tpl/table_static.html',
+                templateUrl: 'tpl/approve_vendors.html',
                 controller: 'newVendor'
             })
             .state('app.newVendor', {
@@ -285,53 +287,6 @@ var app = angular.module('app', [
                 templateUrl: 'tpl/page_404.html'
             })
 
-            // fullCalendar
-            .state('app.calendar', {
-                url: '/calendar',
-                templateUrl: 'tpl/app_calendar.html',
-                // use resolve to load other dependences
-                resolve: {
-                    deps: ['uiLoad',
-                      function( uiLoad ){
-                        return uiLoad.load( ['js/jquery/fullcalendar/fullcalendar.css',
-                                             'js/jquery/fullcalendar/theme.css',
-                                             'js/jquery/jquery-ui-1.10.3.custom.min.js',
-                                             'js/libs/moment.min.js',
-                                             'js/jquery/fullcalendar/fullcalendar.min.js',
-                                             'js/modules/ui-calendar.js',
-                                             'js/app/calendar/calendar.js']);
-                    }]
-                }
-            })
-
-            // mail
-            .state('app.mail', {
-                abstract: true,
-                url: '/mail',
-                templateUrl: 'tpl/mail.html',
-                // use resolve to load other dependences
-                resolve: {
-                    deps: ['uiLoad',
-                      function( uiLoad ){
-                        return uiLoad.load( ['js/app/mail/mail.js',
-                                             'js/app/mail/mail-service.js',
-                                             'js/libs/moment.min.js'] );
-                    }]
-                }
-            })
-            .state('app.mail.list', {
-                url: '/inbox/{fold}',
-                templateUrl: 'tpl/mail.list.html'
-            })
-            .state('app.mail.detail', {
-                url: '/{mailId:[0-9]{1,4}}',
-                templateUrl: 'tpl/mail.detail.html'
-            })
-            .state('app.mail.compose', {
-                url: '/compose',
-                templateUrl: 'tpl/mail.new.html'
-            })
-
             .state('layout', {
                 abstract: true,
                 url: '/layout',
@@ -396,24 +351,7 @@ var app = angular.module('app', [
                     }]
                 }
             })
-            .state('app.weather', {
-                url: '/weather',
-                templateUrl: 'tpl/apps_weather.html',
-                resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad ){
-                        return $ocLazyLoad.load(
-                            {
-                                name: 'angular-skycons',
-                                files: ['js/app/weather/skycons.js',
-                                        'js/libs/moment.min.js', 
-                                        'js/app/weather/angular-skycons.js',
-                                        'js/app/weather/ctrl.js' ] 
-                            }
-                        );
-                    }]
-                }
-            })
+
     }
   ]
 )
