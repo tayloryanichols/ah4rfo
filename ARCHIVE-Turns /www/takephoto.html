@@ -22,7 +22,6 @@
     // onSuccess Geolocation
     //
     function onSuccess(position) {
-        alert("Latitude: " + position.coords.latitude + "<br/>" + "Longitude: " + position.coords.longitude);
 
         var filename = "test.jpg";
 
@@ -31,12 +30,12 @@
                 alert(fileURI);
             }, 
             function failure(error) {
-            alert(error);
+                alert(error);
             }, 
             {
-            quality: 80,
-            targetWidth: 120,
-            targetHeight: 120
+                quality: 80,
+                targetWidth: 120,
+                targetHeight: 120
             });
         alert("File URI : " + fileURI);
     }

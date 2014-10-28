@@ -84,7 +84,29 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     });
 
   }])
+  .controller('searchVendors', ['$scope', 'appService', '$state', '$localStorage', '$cookieStore', 'permissions', function ($scope, appService, $state, $localStorage, $cookieStore, permissions) {
+    var base = 'https://maintenance.ah4r.com/',
+        app = 'api/v1/',
+        location = 'vendorSearch.php',
+        uri = ''+ base + app + location +'', 
+        count = '25';
 
+    $scope.search = function() {
+      var url = encodeURI('' + uri + '?phrase=' + $scope.query + '&page=1&count=' + count + '');
+      console.log(url);
+      appService.searchQuery(url).then(function(data) {
+
+        var range = [];
+        for(var i=0;i<data.data.pages;i++) {
+          range.push(i);
+        }
+        $scope.range = range;
+
+        $scope.pageResults = data.data;
+        $scope.queryResults = data.data.vendors;
+      });
+    }
+  }])
   // signin controller
   .controller('SigninFormController', ['$scope', '$http', '$state', '$localStorage', '$cookieStore', 'permissions', function($scope, $http, $state, $localStorage, $cookieStore, permissions) {
     $scope.user = {};
@@ -104,6 +126,15 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
     $scope.login = function() {
       $scope.authError = null;
+
+      // Encript
+      var encrypted = CryptoJS.AES.encrypt($scope.user.password, "1234");
+      var decrypted = CryptoJS.AES.decrypt(encrypted, "1234");
+      var originalData = decrypted.toString(CryptoJS.enc.Utf8);
+      console.log(encrypted);
+      console.log(decrypted);
+      console.log(originalData);
+
       // Try to login
       $http.get('api/login', {email: $scope.user.email, password: $scope.user.password})
       .then(function(response) {

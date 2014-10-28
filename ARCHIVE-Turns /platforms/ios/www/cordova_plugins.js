@@ -1,20 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/com.performanceactive.plugins.camera/www/js/customcamera.js",
-        "id": "com.performanceactive.plugins.camera.customCamera",
-        "clobbers": [
-            "navigator.customCamera"
-        ]
-    },
-    {
-        "file": "plugins/com.synconset.imagepicker/www/imagepicker.js",
-        "id": "com.synconset.imagepicker.ImagePicker",
-        "clobbers": [
-            "plugins.imagePicker"
-        ]
-    },
-    {
         "file": "plugins/org.apache.cordova.battery-status/www/battery.js",
         "id": "org.apache.cordova.battery-status.battery",
         "clobbers": [
@@ -43,7 +29,7 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.camera/www/ios/CameraPopoverHandle.js",
+        "file": "plugins/org.apache.cordova.camera/www/CameraPopoverHandle.js",
         "id": "org.apache.cordova.camera.CameraPopoverHandle",
         "clobbers": [
             "CameraPopoverHandle"
@@ -110,20 +96,6 @@ module.exports = [
         "id": "org.apache.cordova.contacts.ContactFieldType"
     },
     {
-        "file": "plugins/org.apache.cordova.contacts/www/ios/contacts.js",
-        "id": "org.apache.cordova.contacts.contacts-ios",
-        "merges": [
-            "navigator.contacts"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.contacts/www/ios/Contact.js",
-        "id": "org.apache.cordova.contacts.Contact-iOS",
-        "merges": [
-            "Contact"
-        ]
-    },
-    {
         "file": "plugins/org.apache.cordova.device/www/device.js",
         "id": "org.apache.cordova.device.device",
         "clobbers": [
@@ -154,6 +126,13 @@ module.exports = [
     {
         "file": "plugins/org.apache.cordova.dialogs/www/notification.js",
         "id": "org.apache.cordova.dialogs.notification",
+        "merges": [
+            "navigator.notification"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.dialogs/www/android/notification.js",
+        "id": "org.apache.cordova.dialogs.notification_android",
         "merges": [
             "navigator.notification"
         ]
@@ -285,8 +264,8 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/ios/FileSystem.js",
-        "id": "org.apache.cordova.file.iosFileSystem",
+        "file": "plugins/org.apache.cordova.file/www/android/FileSystem.js",
+        "id": "org.apache.cordova.file.androidFileSystem",
         "merges": [
             "FileSystem"
         ]
@@ -414,17 +393,16 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "android.support.v4": "1.0.0",
-    "com.performanceactive.plugins.camera": "1.4",
-    "com.synconset.imagepicker": "1.0.4",
     "org.apache.cordova.battery-status": "0.2.8",
     "org.apache.cordova.camera": "0.3.0",
+    "org.apache.cordova.console": "0.2.9",
     "org.apache.cordova.contacts": "0.2.11",
     "org.apache.cordova.device": "0.2.10",
     "org.apache.cordova.device-orientation": "0.3.7",
     "org.apache.cordova.dialogs": "0.2.8",
     "org.apache.cordova.file": "1.2.0",
     "org.apache.cordova.file-transfer": "0.4.4",
+    "org.apache.cordova.geolocation": "0.3.8",
     "org.apache.cordova.inappbrowser": "0.5.0",
     "org.apache.cordova.media": "0.2.11",
     "org.apache.cordova.media-capture": "0.3.1",
