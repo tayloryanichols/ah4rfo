@@ -708,7 +708,7 @@ body {
   text-decoration: none;
 }
 .navbar-brand img {
-  max-height: 20px;
+  max-height: 30px;
   margin-top: -4px;
   vertical-align: middle;
 }
@@ -3427,6 +3427,9 @@ a.text-#000000:hover {
 .padder-v {
   padding-top: 15px;
   padding-bottom: 15px;
+}
+.p-b-md {
+  padding-bottom: 20px;
 }
 .no-padder {
   padding: 0 !important;

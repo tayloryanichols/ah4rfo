@@ -64,15 +64,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   }])
 
   .controller('newVendor', ['$scope', 'appService', '$state', '$localStorage', '$cookieStore', 'permissions', function ($scope, appService, $state, $localStorage, $cookieStore, permissions) {
-    
-    // Check if they're auth'd 
-    var user_info = $cookieStore.get('user_info');
-    if(user_info == undefined) {
-      $state.go('access.signin');
-    } else if (permissions.hasPermission('approveVendors') == false) {
-        $state.go('app.page.search');
-    }
-
+    $cookieStore.remove('query');
+    $cookieStore.remove('page');
     var base = 'https://maintenance.ah4r.com/',
         app = 'ah4rvm/',
         location = 'getVendors.php',
@@ -87,25 +80,73 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
   .controller('searchVendors', ['$scope', 'appService', '$state', '$localStorage', '$cookieStore', 'permissions', function ($scope, appService, $state, $localStorage, $cookieStore, permissions) {
     var base = 'https://maintenance.ah4r.com/',
         app = 'api/v1/',
-        location = 'vendorSearch.php',
+        location = 'vendorSearch',
         uri = ''+ base + app + location +'', 
         count = '25';
 
-    $scope.search = function() {
-      var url = encodeURI('' + uri + '?phrase=' + $scope.query + '&page=1&count=' + count + '');
+    $scope.page = 1;
+    $scope.search = function($i) {
+      $i = $i || '1';
+      $scope.page = $i;
+      var url = encodeURI('' + uri + '?phrase=' + $scope.query + '&page='+ $i +'&count=' + count + '');
       console.log(url);
       appService.searchQuery(url).then(function(data) {
 
         var range = [];
+        $scope.pages = data.data.pages;
         for(var i=0;i<data.data.pages;i++) {
           range.push(i);
         }
         $scope.range = range;
-
         $scope.pageResults = data.data;
         $scope.queryResults = data.data.vendors;
+
+        $cookieStore.put('query', $scope.query);
+        $cookieStore.put('page', $i);
+
+        setTimeout(function() {
+          $('html, body').animate({
+              scrollTop: $('#startResults').offset().top
+          }, 300);
+        }, 100);
+
       });
     }
+
+    console.log($cookieStore.get('query'));    
+    if ($cookieStore.get('query')) {
+      $scope.query = $cookieStore.get('query');
+      var page = $cookieStore.get('page') || '1';
+      console.log('query: '+ $scope.query);
+      $scope.search(page);
+    }    
+  }])
+  .controller('searchVendorRecords', ['$scope', 'appService', '$state', '$localStorage', '$cookieStore', 'permissions', '$stateParams', function ($scope, appService, $state, $localStorage, $cookieStore, permissions, $stateParams) {
+    var base = 'https://maintenance.ah4r.com/',
+        app = 'api/v1/',
+        location = 'vendorDetails',
+        uri = ''+ base + app + location +'',
+        url = encodeURI('' + uri + '?id=' + $stateParams.vendor_id + '');
+   
+     appService.vendorDetails(url).then(function(data) {
+       $scope.vendor = data.data;
+       if($scope.vendor.details.dba_name != '' && $scope.vendor.details.dba_name != null) {
+        $scope.vendorName = $scope.vendor.details.dba_name;
+       } else {
+        $scope.vendorName = $scope.vendor.details.vendor_name
+       }
+
+       if($scope.vendor.details.maintenance === "1" && $scope.vendor.details.construction === "1") {
+        $scope.vendorType = 'Maintenance & Construction';
+       } else if ($scope.vendor.details.maintenance === "0" && $scope.vendor.details.construction === "1") {
+        $scope.vendorType = 'Construction Only';
+       } else if ($scope.vendor.details.maintenance === "1" && $scope.vendor.details.construction === "0") {
+        $scope.vendorType = 'Maintenance Only';
+       } else {
+        $scope.vendorType = '';
+       }
+     });
+
   }])
   // signin controller
   .controller('SigninFormController', ['$scope', '$http', '$state', '$localStorage', '$cookieStore', 'permissions', function($scope, $http, $state, $localStorage, $cookieStore, permissions) {

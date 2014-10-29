@@ -2,7 +2,7 @@
   <h1 class="m-n font-thin h3"><i class="icon-magnifier i-sm m-r-sm"></i> Search</h1>
 </div>
 <div class="wrapper-md">
-  <form class="m-b-md" ng-submit="search()">
+  <form class="m-b-md" ng-submit="search()" id="startResults">
     <div class="input-group">
       <input type="text" class="form-control input-lg" placeholder="Type keyword" ng-model="query">
       <span class="input-group-btn">
@@ -10,20 +10,20 @@
       </span>
     </div>
   </form>
-  <p class="m-b-md" ng-if="queryResults.length > 0"><strong>{{pageResults.total}}</strong> Results found for: <strong>{{query}}</strong></p>
+  <p class="m-b-md" ng-if="queryResults.length > 0"><strong>{{pageResults.total}}</strong> total results found for <strong>{{query}}</strong></span>  <span style="float: right;">page <strong>{{page}}</strong> of {{pages}}</p>
 
-  <ul class="list-group no-borders m-b-none">
+  <ul class="list-group m-b-none">
     <li class="list-group-item" ng-repeat="result in queryResults">
-      <a href="/app/page/search/{{result.vendor_id}}" class="h4 text-primary m-b-sm m-t-sm block">{{result.vendor_name}}</a>
+      <a href="#/app/page/search/{{result.vendor_id}}" class="h4 text-primary m-b-sm m-t-xxsm block">{{result.vendor_name}}</a>
       <div class="hbox">
         <div class="col">
           <div ng-if="result.contact_name != null">Name: <b>{{result.contact_name}}</b></div>
              <div ng-if="result.contact_phone != null">Phone: <b>{{result.contact_phone}}</b></div>
-             <div ng-if="result.contact_email != '' && result.contact_email != null">Email: <b>{{result.contact_email}}</b></div>
+             <div ng-if="result.contact_email != '' && result.contact_email != null">Email: <b><a href="mailto:{{result.contact_email}}">{{result.contact_email}}</a></b></div>
         </div>  
         <div class="col">
-          <div ng-if="result.contact_city_1 != null">City: <b>{{result.contact_city_1}}</b></div>
-             <div ng-if="result.contact_state_1 != null">State: <b>{{result.contact_state_1}}</b></div>
+          <div ng-if="result.city_1 != null">City: <b>{{result.city_1}}</b></div>
+             <div ng-if="result.state_1 != null">State: <b>{{result.state_1}}</b></div>
         </div>
       </div>   
       <!--<p><span class="label bg-primary pos-rlt m-r inline wrapper-xs"><i class="arrow right arrow-primary"></i> Tags:</span> <a href class="m-r-sm">admin</a> <a href>app</a>
@@ -32,17 +32,17 @@
   </ul>
   <footer class="panel-footer" ng-if="queryResults.length > 0">
     <div class="row">
-      <div class="col-sm-4 hidden-xs">
-      </div>
-      <div class="col-sm-4 text-center">
+      <!--<div class="col-sm-4 hidden-xs">
+      </div>-->
+      <!--<div class="col-sm-4 text-center">
         <small class="text-muted inline m-t-sm m-b-sm">showing pages {{$index}} of {{pageResults.pages}}</small>
-      </div>
-      <div class="col-sm-4 text-right text-center-xs">                
+      </div>-->
+      <div class="col-sm-12 text-right text-center-xs">                
         <ul class="pagination pagination-sm m-t-none m-b-none">
-          <li><a href><i class="fa fa-chevron-left"></i></a></li>
-          <li ng-repeat="i in range"><a href>{{$index+1}}</a></li>
+          <!--<li><a href><i class="fa fa-chevron-left"></i></a></li>-->
+          <li ng-repeat="i in range" ng-class="{active: $index+1 == page}"><a ng-click="search($index+1)">{{$index+1}}</a></li>
           
-          <li><a href><i class="fa fa-chevron-right"></i></a></li>
+          <!--<li><a href><i class="fa fa-chevron-right"></i></a></li>-->
         </ul>
       </div>
     </div>

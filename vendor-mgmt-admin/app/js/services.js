@@ -18,6 +18,12 @@ angular.module('app.services', [])
 				var getResults = $http.get(uri);
 				deferred.resolve(getResults);
 				return deferred.promise;
+			},
+			vendorDetails: function(uri) {
+				var deferred = $q.defer();
+				var getResults = $http.get(uri);
+				deferred.resolve(getResults);
+				return deferred.promise;
 			}
 		}
 	})

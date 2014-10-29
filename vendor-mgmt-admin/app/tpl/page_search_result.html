@@ -1,0 +1,116 @@
+<div class="bg-light lter b-b wrapper-md">
+  <div class="row">
+    <div class="col-md-3" style="margin-top: 5px;">
+      <a href="#/app/page/search"><span class="fa fa-angle-left"></span> Back to results</a>
+    </div>
+    <div class="col-md-6">
+      <h1 class="m-n font-medium h3 text-center">{{vendorName}}</h1>
+      <h4 class="m-n font-thin text-center">{{vendorType}}</h4>
+    </div>  
+  </div>  
+</div>
+<div class="wrapper-md">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Basic Info</h3>
+        </div>
+        <div class="panel-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="list-item" ng-if="vendor.scode != null">
+                scode: <strong>{{vendor.details.scode}}</strong>
+              </div>
+              <div class="list-item">
+                Address: <br /><strong>{{vendor.details.address_1}}</strong></br>
+                <strong>{{vendor.details.city_1}}, {{vendor.details.state_2}} {{vendor.details.zip_2}}</strong>
+              </div>
+            </div>  
+          </div>  
+          <div class="row m-t-sm">
+            <span style="margin-left: 15px; display: block;">Contacts:</span>
+            <div class="col-md-6 m-b-sm" ng-repeat="contact in vendor.contacts">
+              <strong>{{contact.contact_name}}</strong><br />
+              <strong>{{contact.contact_phone}}</strong><br />
+              <strong>{{contact.contact_email}}</strong>
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Stats</h3>
+        </div>
+        <div class="panel-body">
+          <div class="list-item row m-b-xs" ng-if="vendor.details.emp_number != null">
+            <div class="col-md-4"># Employees:</div> <div class="col-md-8"><strong>{{vendor.details.emp_number}}</strong></div>
+          </div>
+          <div class="list-item row m-b-xs" ng-if="vendor.details.years_in_bis != null">
+            <div class="col-md-4">Years in Business:</div> <div class="col-md-8"><strong>{{vendor.details.years_in_bis}}</strong></div>
+          </div>
+          <div class="list-item row m-b-xs" ng-if="vendor.details.annual_revenue != null">
+            <div class="col-md-4">Annual Revenue:</div> <div class="col-md-8"><strong>{{vendor.details.annual_revenue}}</strong></div>
+          </div>
+          <div class="list-item row m-b-xs" ng-if="vendor.details.insurance_to != null">
+            <div class="col-md-4">Insurance To:</div> <div class="col-md-8"><strong>{{vendor.details.insurance_to}}</strong></div>
+          </div>
+          <div class="list-item row m-b-xs" ng-if="vendor.details.open_count != null">
+            <div class="col-md-4">Open Work Orders:</div> <div class="col-md-8"><strong>{{vendor.details.open_count}}</strong></div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div> 
+  <div class="row"> 
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Markets</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-6" ng-repeat="market in vendor.markets">
+               <p>{{market.market}}, {{market.state}}<p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Services</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-6" ng-repeat="service in vendor.services">
+              <p>{{service.service_name}}</p>
+            </div>
+          </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">  
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Notes</h3>
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <textarea class="form-control" id="description" name=""></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+</div>

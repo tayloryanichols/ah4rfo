@@ -43,7 +43,7 @@ var app = angular.module('app', [
         app.value      = $provide.value;
 
         $urlRouterProvider
-            .otherwise('/access/signin');
+            .otherwise('/app/page/search');
         $stateProvider
             .state('app', {
                 abstract: true,
@@ -90,6 +90,12 @@ var app = angular.module('app', [
                 url: '/search',
                 templateUrl: 'tpl/page_search.html',
                 controller: 'searchVendors'
+            })
+
+            .state('app.page.searchresult', {
+                url: '/search/:vendor_id',
+                templateUrl: 'tpl/page_search_result.html',
+                controller: 'searchVendorRecords'
             })
             
             .state('access', {
