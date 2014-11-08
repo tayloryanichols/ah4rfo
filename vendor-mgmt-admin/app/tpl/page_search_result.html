@@ -23,8 +23,8 @@
                 scode: <strong>{{vendor.details.scode}}</strong>
               </div>
               <div class="list-item">
-                Address: <br /><strong>{{vendor.details.address_1}}</strong></br>
-                <strong>{{vendor.details.city_1}}, {{vendor.details.state_2}} {{vendor.details.zip_2}}</strong>
+                Address: <br /><strong>{{vendor.details.address1}}</strong></br>
+                <strong>{{vendor.details.city}}, {{vendor.details.state}} {{vendor.details.zip}}</strong>
               </div>
             </div>  
           </div>  
@@ -106,7 +106,20 @@
         <div class="panel-body">
           <div class="form-group">
             <div class="col-lg-12 col-md-12 col-sm-12">
-              <textarea class="form-control" id="description" name=""></textarea>
+              <ul>
+                <li ng-repeat="note in notes">
+                  .{{content}}
+                </li>
+              </ul>
+              
+              <div class="addNotes" ng-click="addNote()" ng-hide="visible" style="cursor: pointer;"><i class="fa fa-plus-circle"></i> Add Note</div>
+              <div class="addNotes" ng-click="addNote()" ng-show="visible" style="cursor: pointer;"><i class="fa fa-minus-circle"></i> Hide Note</div>
+              <div class="noteText" ng-show="visible">
+                <form ng-submit="submitNote()">
+                  <textarea class="form-control" id="description" name="" ng-model="noteText"></textarea>
+                  <input class="btn btn-sm btn-default m-t-sm pull-right-xs" type="submit" id="submit" value="Add Note"></input>
+                </form>  
+              </div>  
             </div>
           </div>
         </div>

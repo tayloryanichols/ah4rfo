@@ -12,8 +12,8 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
 
       // config
       $scope.app = {
-        name: 'Angulr',
-        version: '1.3.1',
+        name: 'AH4R',
+        version: '1.0',
         // for chart colors
         color: {
           primary: '#7266ba',
@@ -125,17 +125,41 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
     var base = 'https://maintenance.ah4r.com/',
         app = 'api/v1/',
         location = 'vendorDetails',
+        noteLocation = 'setNote',
         uri = ''+ base + app + location +'',
+        noteUri = ''+ base + app + noteLocation +'',
         url = encodeURI('' + uri + '?id=' + $stateParams.vendor_id + '');
-   
+    
+      // Add Notes
+      $scope.visible = false;
+      $scope.addNote = function() {
+        console.log('toggle')
+       $scope.visible = !$scope.visible;
+      }
+
+      $scope.submitNote = function() {
+        console.log('addNoteCalled')
+        var noteUrl = encodeURI('' + noteUri + '?id=' + $stateParams.vendor_id + '&note=' + $scope.noteText + '');
+        console.log(noteUrl);
+        appService.vendorDetails(noteUrl).then(function(data) {
+          $scope.notes = data.notes;
+          $scope.visible = !$scope.visible;
+        });
+      }
+
+     console.log(url);
      appService.vendorDetails(url).then(function(data) {
        $scope.vendor = data.data;
+       $scope.notes = data.notes;
+
+       // Assign Vendor Name
        if($scope.vendor.details.dba_name != '' && $scope.vendor.details.dba_name != null) {
         $scope.vendorName = $scope.vendor.details.dba_name;
        } else {
         $scope.vendorName = $scope.vendor.details.vendor_name
        }
 
+       // Create Verbage of Company Roles
        if($scope.vendor.details.maintenance === "1" && $scope.vendor.details.construction === "1") {
         $scope.vendorType = 'Maintenance & Construction';
        } else if ($scope.vendor.details.maintenance === "0" && $scope.vendor.details.construction === "1") {
