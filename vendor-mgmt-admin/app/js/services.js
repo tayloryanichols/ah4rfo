@@ -24,6 +24,12 @@ angular.module('app.services', [])
 				var getResults = $http.get(uri);
 				deferred.resolve(getResults);
 				return deferred.promise;
+			},
+			addNote: function(uri) {
+				var deferred = $q.defer();
+				var addNote = $http.post(uri);
+				deferred.resolve(addNote);
+				return deferred.promise;
 			}
 		}
 	})

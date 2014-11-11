@@ -130,27 +130,30 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
         noteUri = ''+ base + app + noteLocation +'',
         url = encodeURI('' + uri + '?id=' + $stateParams.vendor_id + '');
     
-      // Add Notes
       $scope.visible = false;
       $scope.addNote = function() {
         console.log('toggle')
-       $scope.visible = !$scope.visible;
+        $scope.visible = !$scope.visible;
       }
 
+      // Add Notes
       $scope.submitNote = function() {
         console.log('addNoteCalled')
         var noteUrl = encodeURI('' + noteUri + '?id=' + $stateParams.vendor_id + '&note=' + $scope.noteText + '');
-        console.log(noteUrl);
-        appService.vendorDetails(noteUrl).then(function(data) {
-          $scope.notes = data.notes;
+        appService.addNote(noteUrl).then(function(data) {
           $scope.visible = !$scope.visible;
+
+          // Get Notes from API
+          appService.vendorDetails(url).then(function(data) {
+            $scope.notes = data.data.notes;
+          });
         });
       }
 
      console.log(url);
      appService.vendorDetails(url).then(function(data) {
        $scope.vendor = data.data;
-       $scope.notes = data.notes;
+       $scope.notes = data.data.notes;
 
        // Assign Vendor Name
        if($scope.vendor.details.dba_name != '' && $scope.vendor.details.dba_name != null) {
@@ -172,7 +175,7 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
      });
 
   }])
-  // signin controller
+  /* signin controller
   .controller('SigninFormController', ['$scope', '$http', '$state', '$localStorage', '$cookieStore', 'permissions', function($scope, $http, $state, $localStorage, $cookieStore, permissions) {
     $scope.user = {};
     $scope.authError = null;
@@ -248,5 +251,5 @@ angular.module('app.controllers', ['pascalprecht.translate', 'ngCookies'])
       });
       $scope.tabs[index] = true;
     }
-  }])
+  }])*/
  ;

@@ -106,14 +106,22 @@
         <div class="panel-body">
           <div class="form-group">
             <div class="col-lg-12 col-md-12 col-sm-12">
-              <ul>
-                <li ng-repeat="note in notes">
-                  .{{content}}
+              <ul class="list-group m-b-none">
+              
+                <li class="list-group-item ng-scope" ng-repeat="note in notes">
+                  <div class="hbox">
+                    <div class="col">
+                      <div>
+                        <span class="text-xs" style="color: #999; display: block;">{{note.created}}</span>
+                        {{note.note}}
+                      </div>
+                    </div>
+                  </div>    
                 </li>
               </ul>
               
-              <div class="addNotes" ng-click="addNote()" ng-hide="visible" style="cursor: pointer;"><i class="fa fa-plus-circle"></i> Add Note</div>
-              <div class="addNotes" ng-click="addNote()" ng-show="visible" style="cursor: pointer;"><i class="fa fa-minus-circle"></i> Hide Note</div>
+              <div class="addNotes m-t-md" ng-click="addNote()" ng-hide="visible" style="cursor: pointer;"><i class="fa fa-plus-circle"></i> Add Note</div>
+              <div class="addNotes m-t-md" ng-click="addNote()" ng-show="visible" style="cursor: pointer;"><i class="fa fa-minus-circle"></i> Hide Note</div>
               <div class="noteText" ng-show="visible">
                 <form ng-submit="submitNote()">
                   <textarea class="form-control" id="description" name="" ng-model="noteText"></textarea>
